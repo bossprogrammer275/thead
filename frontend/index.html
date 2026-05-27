@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIND — The App Store for Underrated Tools</title>
+  <meta name="description" content="FIND is the ultimate tool discovery engine. Search for tasks, and discover curated, premium web tools instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              orange: '#EA580C',
+              'orange-hover': '#C2410C',
+              'orange-light': '#F97316',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-[#3B0764] text-[#F3E8FF]">
+
+  <!-- Background Texture -->
+  <div class="fixed inset-0 pointer-events-none z-0" style="background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 60%);"></div>
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-40 w-full border-b border-purple-900/40 bg-[#3B0764]/70 backdrop-blur-md transition-all">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-2xl font-black tracking-tighter text-white hover:opacity-90 transition-opacity">FIND</a>
+        <span class="badge badge-purple text-[10px] uppercase font-bold tracking-widest hidden sm:inline">Engine v2</span>
+      </div>
+
+      <!-- Auth State Area -->
+      <div id="auth-header-container" class="flex items-center gap-3">
+        <!-- Logged out button -->
+        <button id="nav-login-btn" onclick="openAuthModal()" class="btn-orange text-xs py-2 px-4 flex items-center gap-1.5 shadow-md">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2".5 viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+          Sign In
+        </button>
+        <!-- Logged in pill (Hidden by default) -->
+        <div id="nav-user-pill" class="hidden flex items-center gap-2">
+          <div class="flex items-center gap-2 bg-purple-900/50 border border-purple-500/20 px-3.5 py-1.5 rounded-full backdrop-blur-sm">
+            <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span id="nav-username" class="text-xs font-bold text-white tracking-wide">@username</span>
+          </div>
+          <button onclick="handleLogout()" class="text-xs text-purple-400 hover:text-red-400 transition-colors p-2" title="Sign Out">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Discovery Engine -->
+  <main class="flex-1 flex flex-col items-center relative z-10 w-full">
+    
+    <!-- Hero / Brand Section -->
+    <section class="w-full max-w-4xl mx-auto px-4 pt-12 sm:pt-20 pb-8 text-center animate-fade-in">
+      <h1 class="hero-title tracking-tighter mb-2">FIND</h1>
+      <p class="hero-subtitle text-base sm:text-lg mb-8 max-w-lg mx-auto leading-relaxed">Discover underrated web tools curated for developers, designers, and creators.</p>
+
+      <!-- Premium Search Input Bar -->
+      <div class="search-wrapper mx-auto shadow-2xl">
+        <input
+          type="text"
+          id="search-input"
+          class="search-input text-base sm:text-lg"
+          placeholder="Search tools, tags, or tasks (e.g. 'mockup', 'design')..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <svg class="search-icon w-5 h-5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+
+      <!-- Quick Categories -->
+      <div id="quick-tags" class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
+        <span class="text-purple-400">Popular:</span>
+        <button onclick="triggerQuickSearch('design')" class="badge badge-purple hover:bg-purple-800/40 transition-colors">Design</button>
+        <button onclick="triggerQuickSearch('dev')" class="badge badge-purple hover:bg-purple-800/40 transition-colors">Developer</button>
+        <button onclick="triggerQuickSearch('ai')" class="badge badge-purple hover:bg-purple-800/40 transition-colors">AI</button>
+        <button onclick="triggerQuickSearch('productivity')" class="badge badge-purple hover:bg-purple-800/40 transition-colors">Productivity</button>
+      </div>
+    </section>
+
+    <!-- Results Status Badge -->
+    <div class="w-full max-w-5xl mx-auto px-4 mb-4">
+      <span id="results-count" class="badge badge-purple hidden animate-slide-down shadow-sm"></span>
+    </div>
+
+    <!-- Discovery Grid (App Store Card Grid) -->
+    <section class="w-full max-w-5xl mx-auto px-4 pb-12">
+      <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynmically loaded app cards go here -->
+      </div>
+      
+      <!-- Empty state / Initial Hint -->
+      <div id="initial-hint" class="text-center py-12 animate-fade-in w-full max-w-lg mx-auto">
+        <div class="flex flex-col items-center justify-center gap-3 text-purple-500 text-sm">
+          <svg class="w-12 h-12 stroke-[1.25] text-purple-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.61 3.25c-3.15 0-6.02.97-8.38 2.63a14.98 14.98 0 0 0 4.12 18.06" />
+          </svg>
+          <p class="text-purple-300 font-medium">Ready to discover?</p>
+          <p class="text-xs text-purple-500 max-w-xs mx-auto">Enter keywords in the search bar above to look through highly rated, lightweight tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- View More -->
+    <div id="view-more-wrap" class="w-full max-w-5xl mx-auto px-4 pb-16 text-center hidden">
+      <button id="view-more-btn" class="btn-orange-outline font-bold shadow-md" onclick="toggleViewMore()">
+        View More Tools
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Premium App Detail View Modal (iOS-Style card expansion overlay) -->
+  <div id="detail-modal" class="fixed inset-0 z-50 overflow-y-auto hidden animate-fade-in" style="background: rgba(15, 5, 25, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+      
+      <!-- Modal Box -->
+      <div class="w-full max-w-3xl glass-card relative overflow-hidden shadow-2xl animate-scale-in border border-purple-500/20">
+        
+        <!-- Top Cover Header -->
+        <div class="relative bg-gradient-to-r from-purple-900 to-indigo-950 p-6 sm:p-8 border-b border-purple-800/30">
+          <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-purple-300 hover:text-white bg-purple-950/40 hover:bg-purple-950/80 transition-colors w-8 h-8 rounded-full flex items-center justify-center font-bold" title="Close">✕</button>
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mt-4">
+            <div>
+              <h2 id="modal-tool-name" class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Tool Name</h2>
+              <div class="flex items-center gap-3 mt-2 flex-wrap">
+                <div class="flex items-center gap-1">
+                  <span class="text-purple-400 font-semibold text-xs uppercase">Admin:</span>
+                  <div class="star-rating" id="modal-admin-stars"></div>
+                </div>
+                <span class="w-1 h-1 bg-purple-700 rounded-full"></span>
+                <span id="modal-clicks-badge" class="badge badge-purple text-[10px]">0 views</span>
+              </div>
+            </div>
+            
+            <button id="modal-visit-btn" class="btn-orange w-full sm:w-auto justify-center px-6 py-3 font-bold text-sm tracking-wide">
+              Visit Website
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+          
+          <!-- Intro -->
+          <div>
+            <p id="modal-tool-intro" class="text-base sm:text-lg text-purple-100 leading-relaxed font-medium">This is the short introduction description of the tool.</p>
+          </div>
+
+          <!-- Specs grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-purple-950/40 border border-purple-900/30 p-4 rounded-xl">
+              <span class="text-xs font-bold text-orange-400 uppercase tracking-widest block mb-1.5">Best For</span>
+              <p id="modal-bestfor" class="text-purple-100 text-sm">—</p>
+            </div>
+            <div class="bg-purple-950/40 border border-purple-900/30 p-4 rounded-xl">
+              <span class="text-xs font-bold text-purple-400 uppercase tracking-widest block mb-1.5">Weakness</span>
+              <p id="modal-weakness" class="text-purple-100 text-sm">—</p>
+            </div>
+          </div>
+
+          <!-- Verdict -->
+          <div class="verdict-box p-5 border border-purple-500/20 bg-purple-900/20 rounded-xl relative overflow-hidden">
+            <div class="absolute -right-3 -top-3 w-16 h-16 bg-orange-600/10 rounded-full blur-xl"></div>
+            <span class="text-xs font-bold text-orange-400 uppercase tracking-widest block mb-1">FIND Expert Verdict</span>
+            <p id="modal-verdict" class="text-purple-100 text-sm leading-relaxed mt-1">—</p>
+          </div>
+
+          <!-- Tags list -->
+          <div class="flex flex-wrap gap-1.5 pt-2 border-b border-purple-900/20 pb-4" id="modal-tags">
+            <!-- Dynamic tags -->
+          </div>
+
+          <!-- REVIEWS SECTION -->
+          <div class="space-y-4 pt-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                User Reviews
+                <span id="modal-reviews-count" class="badge badge-purple text-[10px] tracking-normal">0 ratings</span>
+              </h3>
+              
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-black text-amber-400" id="modal-user-avg-rating">0.0</span>
+                <div class="star-rating" id="modal-user-stars"></div>
+              </div>
+            </div>
+
+            <!-- Review Feed list -->
+            <div id="reviews-feed" class="space-y-3 max-h-56 overflow-y-auto pr-1">
+              <!-- Dynamically populated comments -->
+            </div>
+
+            <!-- Write a review box -->
+            <div class="bg-purple-950/30 border border-purple-900/40 rounded-xl p-4 mt-6">
+              <h4 class="text-xs font-bold text-purple-300 uppercase tracking-widest mb-3">Leave a Review</h4>
+              
+              <!-- Logged out prompt -->
+              <div id="review-loggedout-prompt" class="text-center py-4">
+                <p class="text-xs text-purple-400 mb-2">You must be logged in with a @username to leave reviews.</p>
+                <button onclick="openAuthModal()" class="btn-orange text-xs py-1.5 px-3">Sign In Now</button>
+              </div>
+
+              <!-- Logged in form -->
+              <form id="review-form" class="hidden space-y-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-purple-400">Your Rating:</span>
+                  <div class="star-interactive" id="review-star-selector">
+                    <button type="button" class="star-btn active text-lg" data-rating="1">★</button>
+                    <button type="button" class="star-btn active text-lg" data-rating="2">★</button>
+                    <button type="button" class="star-btn active text-lg" data-rating="3">★</button>
+                    <button type="button" class="star-btn active text-lg" data-rating="4">★</button>
+                    <button type="button" class="star-btn text-lg" data-rating="5">★</button>
+                  </div>
+                </div>
+                
+                <div>
+                  <textarea id="review-comment" class="form-input text-xs w-full min-h-[60px]" placeholder="What was your experience with this tool?..." required></textarea>
+                </div>
+                
+                <button type="submit" id="review-submit-btn" class="btn-orange text-xs py-2 px-4 shadow">
+                  Submit Review
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Sleek Login & Signup Modal Overlay -->
+  <div id="auth-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4" style="background: rgba(15, 5, 25, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="w-full max-w-sm glass-card border border-purple-500/20 shadow-2xl relative overflow-hidden animate-scale-in">
+      
+      <!-- Box Header -->
+      <div class="bg-gradient-to-r from-purple-900 to-indigo-950 px-6 py-5 border-b border-purple-800/30 flex items-center justify-between">
+        <h3 id="auth-title" class="text-base font-extrabold text-white tracking-wide">Sign In to FIND</h3>
+        <button onclick="closeAuthModal()" class="text-purple-300 hover:text-white font-bold text-xs" title="Close">✕</button>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="flex border-b border-purple-900/20 text-xs">
+        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-3 text-center font-bold border-b-2 border-orange-500 text-white">SIGN IN</button>
+        <button id="auth-tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-3 text-center font-bold border-b-2 border-transparent text-purple-400">CREATE ACCOUNT</button>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="auth-form" class="p-6 space-y-4">
+        <div>
+          <label class="form-label" for="auth-username">Username</label>
+          <input
+            type="text"
+            id="auth-username"
+            class="form-input"
+            placeholder="@ismailg"
+            autocomplete="username"
+            required
+          >
+          <p id="auth-username-hint" class="text-[10px] text-purple-400 mt-1">Format: @username (lowercase letters & numbers only)</p>
+        </div>
+
+        <div>
+          <label class="form-label" for="auth-password">Password</label>
+          <input
+            type="password"
+            id="auth-password"
+            class="form-input"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <p id="auth-error-msg" class="text-red-400 text-xs mt-2 hidden text-center leading-normal"></p>
+
+        <button type="submit" id="auth-submit-btn" class="btn-orange w-full justify-center font-bold text-sm py-3 mt-2 shadow-lg">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 px-5 border-t border-purple-900/10">
+    <div class="flex items-center justify-center gap-4 text-xs text-purple-500">
+      <span>&copy; 2026 FIND discovery</span>
+      <span class="w-px h-3 bg-purple-900/50"></span>
+      <a href="admin.html" class="hover:text-purple-300 transition-colors">Admin Access</a>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
