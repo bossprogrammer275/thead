@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 const path = require('path');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 require('dotenv').config();
 const POLL_INTERVAL = 35000; // 35 seconds
@@ -16,16 +16,17 @@ async function pollUrl() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log('Poll data received:', data);
+    // FIX: Read as text instead of JSON to handle HTML homepages safely
+    const data = await response.text();
+    console.log(`Poll successful! Received ${data.length} characters of HTML/Text.`);
 
   } catch (error) {
     console.error('Polling error:', error.message);
   } finally {
-    // Schedule the next poll exactly 35s after the previous one finishes
     setTimeout(pollUrl, POLL_INTERVAL);
   }
 }
+
 
 // Start the polling loop
 pollUrl();
