@@ -414,6 +414,84 @@ app.post('/api/tools/:id/reviews', async (req, res) => {
   }
 });
 
+// GET All Reviews (Admin)
+app.get('/api/admin/reviews', async (req, res) => {
+  try {
+    const snapshot = await toolsRef.get();
+    const allReviews = [];
+    
+    for (const toolDoc of snapshot.docs) {
+      const toolData = toolDoc.data();
+      const reviewsSnapshot = await toolDoc.ref.collection('reviews').orderBy('createdAt', 'desc').get();
+      reviewsSnapshot.forEach(reviewDoc => {
+        allReviews.push({
+          id: reviewDoc.id,
+          toolId: toolDoc.id,
+          toolName: toolData.name,
+          ...reviewDoc.data()
+        });
+      });
+    }
+    
+    // Sort all reviews by date desc
+    allReviews.sort((a, b) => {
+      const aTime = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+      const bTime = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+      return bTime - aTime;
+    });
+    
+    res.json(allReviews);
+  } catch (err) {
+    console.error('GET /api/admin/reviews error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE Review (Admin)
+app.delete('/api/tools/:id/reviews/:reviewId', async (req, res) => {
+  try {
+    const { id, reviewId } = req.params;
+    const reviewRef = toolsRef.doc(id).collection('reviews').doc(reviewId);
+    const doc = await reviewRef.get();
+    
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Review not found.' });
+    }
+    
+    const reviewData = doc.data();
+    const ratingToDelete = reviewData.rating || 0;
+    
+    const toolRef = toolsRef.doc(id);
+    
+    await db.runTransaction(async (transaction) => {
+      const toolDoc = await transaction.get(toolRef);
+      if (toolDoc.exists) {
+        const toolData = toolDoc.data();
+        const currentCount = toolData.userRatingsCount || 0;
+        const currentAvg = toolData.avgUserRating || 0;
+        
+        let newCount = currentCount - 1;
+        let newAvg = 0;
+        if (newCount > 0) {
+          newAvg = ((currentAvg * currentCount) - ratingToDelete) / newCount;
+        }
+        newAvg = Math.max(0, Math.round(newAvg * 10) / 10);
+        
+        transaction.update(toolRef, {
+          userRatingsCount: Math.max(0, newCount),
+          avgUserRating: newAvg
+        });
+      }
+      transaction.delete(reviewRef);
+    });
+    
+    res.json({ message: 'Review deleted successfully.' });
+  } catch (err) {
+    console.error(`DELETE /api/tools/${req.params.id}/reviews/${req.params.reviewId} error:`, err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/admin/analytics', async (req, res) => {
   try {
     const snapshot = await toolsRef.orderBy('views', 'desc').get();
