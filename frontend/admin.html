@@ -26,168 +26,213 @@
     }
   </script>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js for real live analytics charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="min-h-screen">
+<body class="dark-mode">
 
-  <!-- Background -->
-  <div class="fixed inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(109,40,217,0.12) 0%, transparent 55%);"></div>
-
-  <!-- Password Overlay -->
+  <!-- Password Authentication Overlay -->
   <div id="password-overlay" class="password-overlay">
-    <div class="text-center px-5 w-full max-w-xs animate-scale-in">
-      <h1 class="hero-title text-5xl mb-2">FIND</h1>
-      <p class="text-purple-400 text-sm mb-8">Admin Access</p>
+    <div class="glass-card p-6 w-full max-w-xs text-center">
+      <h1 class="text-3xl font-black text-orange-500 tracking-tighter mb-1">FIND</h1>
+      <p class="text-xs text-slate-500 mb-6 uppercase tracking-widest font-semibold">Admin Portal</p>
 
-      <div class="relative">
-        <input
-          type="password"
-          id="password-input"
-          class="search-input text-center text-sm"
-          placeholder="Enter password"
-          autocomplete="off"
-        >
-      </div>
+      <input
+        type="password"
+        id="password-input"
+        class="form-input text-center text-sm mb-4"
+        placeholder="Enter password"
+        autocomplete="off"
+      >
+      <p id="password-error" class="text-red-400 text-xs mb-3 hidden">Wrong password.</p>
 
-      <p id="password-error" class="text-red-400 text-xs mt-3 hidden">Wrong password.</p>
-
-      <button onclick="checkPassword()" class="btn-orange w-full mt-4 justify-center">
+      <button onclick="checkPassword()" class="btn-orange w-full justify-center text-xs py-2">
         Enter Dashboard
       </button>
     </div>
   </div>
 
-  <!-- Dashboard (hidden until auth) -->
-  <div id="dashboard" class="hidden relative z-10">
+  <!-- Dashboard Container (hidden by default) -->
+  <div id="dashboard" class="hidden min-h-screen flex flex-col w-full">
 
-    <!-- Top Bar -->
-    <header class="border-b border-purple-800/40 bg-purple-950/80 backdrop-blur-md sticky top-0 z-30">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <a href="index.html" class="text-xl font-black tracking-tight text-white hover:text-purple-300 transition-colors">FIND</a>
-          <span class="badge badge-orange text-[10px]">ADMIN</span>
-        </div>
-        <button onclick="loadAnalytics()" class="text-xs text-purple-400 hover:text-white transition-colors flex items-center gap-1.5">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-          Refresh
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-lg font-black text-white hover:text-orange-500 transition-colors">FIND</a>
+        <span class="badge badge-orange text-[9px] font-bold">ADMIN ACCESS</span>
+      </div>
+      
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="theme-toggle-btn" title="Toggle Theme" id="theme-btn">
+          <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+          </svg>
+        </button>
+        <button onclick="loadAnalytics()" class="btn-orange-outline text-xs py-1 px-2.5 flex items-center gap-1">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Sync
         </button>
       </div>
     </header>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 sm:p-6 max-w-6xl w-full mx-auto space-y-6">
 
-      <!-- Stats Row -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <!-- Admin Tab Selector -->
+      <div class="admin-tabs">
+        <button id="tab-tools" onclick="switchAdminTab('tools')" class="admin-tab-btn active">Tools & Actions</button>
+        <button id="tab-reviews" onclick="switchAdminTab('reviews')" class="admin-tab-btn">User Reviews</button>
+        <button id="tab-charts" onclick="switchAdminTab('charts')" class="admin-tab-btn">Analytics Charts</button>
+      </div>
+
+      <!-- Stats Counters Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="glass-card p-4 text-center">
-          <p class="text-2xl font-bold text-white" id="stat-total">0</p>
-          <p class="text-xs text-purple-400 mt-1">Total Tools</p>
+          <p class="text-2xl font-black text-white" id="stat-total">0</p>
+          <p class="text-xs text-slate-500 mt-1 uppercase font-semibold tracking-wider">Total Tools</p>
         </div>
         <div class="glass-card p-4 text-center">
-          <p class="text-2xl font-bold text-brand-orange" id="stat-views">0</p>
-          <p class="text-xs text-purple-400 mt-1">Total Clicks</p>
+          <p class="text-2xl font-black text-orange-500" id="stat-views">0</p>
+          <p class="text-xs text-slate-500 mt-1 uppercase font-semibold tracking-wider">Total Clicks</p>
         </div>
         <div class="glass-card p-4 text-center">
-          <p class="text-2xl font-bold text-amber-400" id="stat-avg-rating">0.0</p>
-          <p class="text-xs text-purple-400 mt-1">Avg User Rating</p>
+          <p class="text-2xl font-black text-amber-500" id="stat-avg-rating">0.0</p>
+          <p class="text-xs text-slate-500 mt-1 uppercase font-semibold tracking-wider">Avg Rating</p>
         </div>
         <div class="glass-card p-4 text-center">
-          <p class="text-lg font-bold text-white truncate" id="stat-top-tool">—</p>
-          <p class="text-xs text-purple-400 mt-1">Most Clicked</p>
+          <p class="text-sm font-bold text-white truncate" id="stat-top-tool">—</p>
+          <p class="text-xs text-slate-500 mt-1.5 uppercase font-semibold tracking-wider">Most Popular</p>
         </div>
       </div>
 
-      <!-- Add / Edit Form -->
-      <div class="glass-card p-5 sm:p-6">
-        <div class="flex items-center justify-between mb-5">
-          <h2 id="form-title" class="text-base font-bold text-white">Add New Tool</h2>
-          <button id="cancel-btn" onclick="cancelEdit()" class="hidden text-xs text-purple-400 hover:text-white transition-colors">
-            ✕ Cancel Edit
-          </button>
-        </div>
-
-        <form id="tool-form" class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="form-label" for="field-name">Tool Name *</label>
-              <input type="text" id="field-name" class="form-input" placeholder="e.g. Excalidraw" required>
-            </div>
-            <div>
-              <label class="form-label" for="field-link">Link (URL) *</label>
-              <input type="url" id="field-link" class="form-input" placeholder="https://example.com" required>
-            </div>
-          </div>
-
-          <div>
-            <label class="form-label" for="field-intro">Short Intro</label>
-            <textarea id="field-intro" class="form-input" rows="2" placeholder="A brief description of the tool..."></textarea>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="form-label" for="field-rating">Admin Rating (0-5)</label>
-              <input type="number" id="field-rating" class="form-input" min="0" max="5" step="0.5" placeholder="4.5">
-            </div>
-            <div>
-              <label class="form-label" for="field-bestfor">Best For</label>
-              <input type="text" id="field-bestfor" class="form-input" placeholder="Quick wireframing">
-            </div>
-            <div>
-              <label class="form-label" for="field-weakness">Weakness</label>
-              <input type="text" id="field-weakness" class="form-input" placeholder="No free collaboration">
-            </div>
-          </div>
-
-          <div>
-            <label class="form-label" for="field-verdict">FIND Verdict</label>
-            <textarea id="field-verdict" class="form-input" rows="2" placeholder="Your expert verdict on this tool..."></textarea>
-          </div>
-
-          <div>
-            <label class="form-label" for="field-tags">Tags (comma-separated)</label>
-            <input type="text" id="field-tags" class="form-input" placeholder="whiteboard, design, sketch">
-          </div>
-
-          <div class="flex items-center gap-3 pt-2">
-            <button type="submit" id="submit-btn" class="btn-orange">
-              Add Tool
+      <!-- PANEL 1: Tools Management (Tools & Actions Tab) -->
+      <div id="panel-tools" class="space-y-6">
+        
+        <!-- Add / Edit Form -->
+        <div class="glass-card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 id="form-title" class="text-sm font-bold text-white uppercase tracking-wider">Add New Tool</h2>
+            <button id="cancel-btn" onclick="cancelEdit()" class="hidden text-xs text-slate-400 hover:text-white transition-colors">
+              ✕ Cancel Edit
             </button>
           </div>
-        </form>
+
+          <form id="tool-form" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="form-label" for="field-name">Tool Name *</label>
+                <input type="text" id="field-name" class="form-input" placeholder="e.g. Excalidraw" required>
+              </div>
+              <div>
+                <label class="form-label" for="field-link">Link (URL) *</label>
+                <input type="url" id="field-link" class="form-input" placeholder="https://excalidraw.com" required>
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label" for="field-intro">Short Intro Description *</label>
+              <textarea id="field-intro" class="form-input" rows="2" placeholder="A brief one-liner details..." required></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="form-label" for="field-rating">Admin Rating (0-5)</label>
+                <input type="number" id="field-rating" class="form-input" min="0" max="5" step="0.5" placeholder="4.5">
+              </div>
+              <div>
+                <label class="form-label" for="field-bestfor">Best For</label>
+                <input type="text" id="field-bestfor" class="form-input" placeholder="Quick wireframing">
+              </div>
+              <div>
+                <label class="form-label" for="field-weakness">Weakness</label>
+                <input type="text" id="field-weakness" class="form-input" placeholder="No free database sync">
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label" for="field-verdict">FIND Expert Verdict</label>
+              <textarea id="field-verdict" class="form-input" rows="2" placeholder="Expert rating/opinion details..."></textarea>
+            </div>
+
+            <div>
+              <label class="form-label" for="field-tags">Tags (comma-separated)</label>
+              <input type="text" id="field-tags" class="form-input" placeholder="design, dev, mockup">
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn-orange text-xs py-2 px-4 shadow">
+              Add Tool
+            </button>
+          </form>
+        </div>
+
+        <!-- All Tools List Table -->
+        <div class="glass-card overflow-hidden">
+          <div class="px-5 py-3.5 border-b border-slate-800">
+            <h2 class="text-xs font-bold text-white uppercase tracking-wider">All App Tools</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Tool Name</th>
+                  <th>Clicks / Views</th>
+                  <th>Ratings / Scores</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr>
+                  <td colspan="4" class="text-center py-6 text-slate-500 text-xs">
+                    Loading tools...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Tools Table -->
-      <div class="glass-card overflow-hidden">
-        <div class="px-5 py-4 border-b border-purple-800/30">
-          <h2 class="text-base font-bold text-white">All Tools</h2>
+      <!-- PANEL 2: User Reviews Moderation -->
+      <div id="panel-reviews" class="glass-card hidden">
+        <div class="px-5 py-4 border-b border-slate-800">
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider">User Reviews Moderation</h2>
         </div>
-        <div class="overflow-x-auto">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Tool</th>
-                <th>Clicks</th>
-                <th>Ratings</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              <tr>
-                <td colspan="5" class="text-center py-8 text-purple-500 text-sm">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="p-4">
+          <div id="admin-reviews-list" class="space-y-3">
+            <div class="text-xs text-slate-500 italic py-2 text-center">Loading user reviews...</div>
+          </div>
         </div>
       </div>
 
-    </div>
+      <!-- PANEL 3: Real Live Charts & Analytics -->
+      <div id="panel-charts" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+        <!-- Views Chart Panel -->
+        <div class="glass-card p-4">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Views & Clicks Analytics</h3>
+          <div class="relative w-full h-[280px]">
+            <canvas id="viewsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Ratings Chart Panel -->
+        <div class="glass-card p-4">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Average Ratings Overview</h3>
+          <div class="relative w-full h-[280px]">
+            <canvas id="ratingsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </main>
 
     <!-- Footer -->
-    <footer class="text-center py-6 px-5">
-      <div class="flex items-center justify-center gap-4 text-xs text-purple-600">
+    <footer class="py-6 px-4 border-t border-slate-900/10 text-center text-xs text-slate-500">
+      <div class="flex items-center justify-center gap-4">
         <span>&copy; 2026 FIND</span>
-        <span class="w-px h-3 bg-purple-800"></span>
-        <a href="index.html" class="hover:text-purple-400 transition-colors">Back to Search</a>
+        <span class="w-px h-3 bg-slate-800"></span>
+        <a href="index.html" class="hover:text-orange-500 transition-colors">Back to Search</a>
       </div>
     </footer>
 
