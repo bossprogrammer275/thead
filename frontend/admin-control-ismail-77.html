@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FIND — Admin Dashboard</title>
   <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -29,6 +32,7 @@
   <!-- Chart.js for real live analytics charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="dark-mode">
 
   <!-- Password Authentication Overlay -->
@@ -37,13 +41,8 @@
       <h1 class="text-3xl font-black text-orange-500 tracking-tighter mb-1">FIND</h1>
       <p class="text-xs text-slate-500 mb-6 uppercase tracking-widest font-semibold">Admin Portal</p>
 
-      <input
-        type="password"
-        id="password-input"
-        class="form-input text-center text-sm mb-4"
-        placeholder="Enter password"
-        autocomplete="off"
-      >
+      <input type="password" id="password-input" class="form-input text-center text-sm mb-4"
+        placeholder="Enter password" autocomplete="off">
       <p id="password-error" class="text-red-400 text-xs mb-3 hidden">Wrong password.</p>
 
       <button onclick="checkPassword()" class="btn-orange w-full justify-center text-xs py-2">
@@ -61,16 +60,21 @@
         <a href="index.html" class="text-lg font-black text-white hover:text-orange-500 transition-colors">FIND</a>
         <span class="badge badge-orange text-[9px] font-bold">ADMIN ACCESS</span>
       </div>
-      
+
       <div class="header-actions">
         <!-- Theme Toggle -->
         <button onclick="toggleTheme()" class="theme-toggle-btn" title="Toggle Theme" id="theme-btn">
           <svg id="theme-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
           </svg>
         </button>
         <button onclick="loadAnalytics()" class="btn-orange-outline text-xs py-1 px-2.5 flex items-center gap-1">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M23 4v6h-6" />
+            <path d="M1 20v-6h6" />
+            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+          </svg>
           Sync
         </button>
       </div>
@@ -108,12 +112,13 @@
 
       <!-- PANEL 1: Tools Management (Tools & Actions Tab) -->
       <div id="panel-tools" class="space-y-6">
-        
+
         <!-- Add / Edit Form -->
         <div class="glass-card p-5">
           <div class="flex items-center justify-between mb-4">
             <h2 id="form-title" class="text-sm font-bold text-white uppercase tracking-wider">Add New Tool</h2>
-            <button id="cancel-btn" onclick="cancelEdit()" class="hidden text-xs text-slate-400 hover:text-white transition-colors">
+            <button id="cancel-btn" onclick="cancelEdit()"
+              class="hidden text-xs text-slate-400 hover:text-white transition-colors">
               ✕ Cancel Edit
             </button>
           </div>
@@ -132,7 +137,8 @@
 
             <div>
               <label class="form-label" for="field-intro">Short Intro Description *</label>
-              <textarea id="field-intro" class="form-input" rows="2" placeholder="A brief one-liner details..." required></textarea>
+              <textarea id="field-intro" class="form-input" rows="2" placeholder="A brief one-liner details..."
+                required></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -152,7 +158,8 @@
 
             <div>
               <label class="form-label" for="field-verdict">FIND Expert Verdict</label>
-              <textarea id="field-verdict" class="form-input" rows="2" placeholder="Expert rating/opinion details..."></textarea>
+              <textarea id="field-verdict" class="form-input" rows="2"
+                placeholder="Expert rating/opinion details..."></textarea>
             </div>
 
             <div>
@@ -240,4 +247,5 @@
 
   <script src="js/admin.js"></script>
 </body>
+
 </html>

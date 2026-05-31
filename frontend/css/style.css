@@ -705,3 +705,35 @@ body {
   display: none !important;
 }
 
+/* Light Mode Overrides for hardcoded Tailwind colors */
+body.light-mode .text-white:not(.btn-orange, .btn-orange *, .category-pill.active, .badge-orange) {
+  color: var(--text-main) !important;
+}
+
+body.light-mode .text-slate-200,
+body.light-mode .text-slate-300,
+body.light-mode .text-slate-400 {
+  color: var(--text-sub) !important;
+}
+
+body.light-mode .text-slate-500 {
+  color: var(--text-muted) !important;
+}
+
+body.light-mode .bg-slate-700,
+body.light-mode .bg-slate-800,
+body.light-mode .bg-slate-900 {
+  background-color: var(--border-color) !important;
+}
+
+body.light-mode .bg-black\/10,
+body.light-mode .bg-black\/15,
+body.light-mode .bg-black\/20 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+body.light-mode .border-slate-800,
+body.light-mode .border-slate-800\/80 {
+  border-color: var(--border-color) !important;
+}
+

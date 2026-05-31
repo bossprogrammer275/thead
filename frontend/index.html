@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FIND — Discover Underrated Tools</title>
-  <meta name="description" content="FIND is the ultimate tool discovery engine. Search for tasks, and discover curated, premium web tools instantly.">
+  <meta name="description"
+    content="FIND is the ultimate tool discovery engine. Search for tasks, and discover curated, premium web tools instantly.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -27,6 +30,7 @@
   </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="dark-mode">
 
   <!-- Left Sidebar Navigation -->
@@ -35,25 +39,23 @@
     <nav class="sidebar-menu">
       <button class="sidebar-icon-btn active" title="Discovery Home" onclick="navigateSidebar('home')">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
         </svg>
       </button>
       <button class="sidebar-icon-btn" title="Categories" onclick="navigateSidebar('categories')">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
         </svg>
       </button>
-      <a href="admin.html" class="sidebar-icon-btn" title="Admin Dashboard">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-        </svg>
-      </a>
     </nav>
     <div class="sidebar-footer">
       <button onclick="toggleTheme()" class="theme-toggle-btn" title="Toggle Light/Dark Theme" id="theme-btn">
         <svg id="theme-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <!-- Moon icon by default (dark mode is active) -->
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
         </svg>
       </button>
     </div>
@@ -61,21 +63,16 @@
 
   <!-- App Main Layout Container -->
   <div class="app-container">
-    
+
     <!-- Top Header -->
     <header class="app-header">
       <!-- Search Input -->
       <div class="search-container">
-        <input
-          type="text"
-          id="search-input"
-          class="search-input"
-          placeholder="Search tools, tasks, tags (e.g. mockup, ai)..."
-          autocomplete="off"
-          spellcheck="false"
-        >
+        <input type="text" id="search-input" class="search-input"
+          placeholder="Search tools, tasks, tags (e.g. mockup, ai)..." autocomplete="off" spellcheck="false">
         <svg class="search-icon w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z"/>
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
         </svg>
       </div>
 
@@ -84,7 +81,8 @@
         <!-- Logged out button -->
         <button id="nav-login-btn" onclick="openAuthModal()" class="btn-orange shadow-md">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
           </svg>
           Sign In
         </button>
@@ -94,9 +92,11 @@
             <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
             <span id="nav-username" class="text-xs font-bold text-orange-500 tracking-wide">@username</span>
           </div>
-          <button onclick="handleLogout()" class="text-xs text-slate-400 hover:text-red-400 transition-colors p-1" title="Sign Out">
+          <button onclick="handleLogout()" class="text-xs text-slate-400 hover:text-red-400 transition-colors p-1"
+            title="Sign Out">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
             </svg>
           </button>
         </div>
@@ -105,16 +105,17 @@
 
     <!-- Main Discovery Section -->
     <main class="dashboard-grid">
-      
+
       <!-- Discovery Area -->
       <section class="discovery-content">
-        
+
         <!-- Featured banner card -->
         <div class="featured-banner">
           <div>
             <span class="featured-label">Featured Spotlight</span>
             <h2 class="featured-title">Find Underrated Gems</h2>
-            <p class="featured-desc">Skip the generic lists. Search directly for your task to discover curated, lightweight, high-performance tools.</p>
+            <p class="featured-desc">Skip the generic lists. Search directly for your task to discover curated,
+              lightweight, high-performance tools.</p>
           </div>
           <div class="mt-4">
             <button onclick="triggerQuickSearch('design')" class="btn-orange">Browse Design tools</button>
@@ -127,12 +128,18 @@
         </div>
 
         <div id="quick-tags" class="category-slider">
-          <button onclick="triggerQuickSearch('all')" class="category-pill active" id="category-pill-all">All Tools</button>
+          <button onclick="triggerQuickSearch('all')" class="category-pill active" id="category-pill-all">All
+            Tools</button>
           <button onclick="triggerQuickSearch('design')" class="category-pill">Design</button>
           <button onclick="triggerQuickSearch('dev')" class="category-pill">Developer</button>
           <button onclick="triggerQuickSearch('ai')" class="category-pill">AI Assistants</button>
           <button onclick="triggerQuickSearch('productivity')" class="category-pill">Productivity</button>
           <button onclick="triggerQuickSearch('writer')" class="category-pill">Writing</button>
+          <button onclick="triggerQuickSearch('social')" class="category-pill">Social Media</button>
+          <button onclick="triggerQuickSearch('marketing')" class="category-pill">Marketing</button>
+          <button onclick="triggerQuickSearch('analytics')" class="category-pill">Analytics</button>
+          <button onclick="triggerQuickSearch('video')" class="category-pill">Video & Audio</button>
+          <button onclick="triggerQuickSearch('security')" class="category-pill">Security</button>
         </div>
 
         <!-- Results count display -->
@@ -147,11 +154,14 @@
 
         <!-- Initial hint display -->
         <div id="initial-hint" class="py-12 text-center">
-          <svg class="w-10 h-10 text-slate-500/50 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.61 3.25c-3.15 0-6.02.97-8.38 2.63a14.98 14.98 0 0 0 4.12 18.06" />
+          <svg class="w-10 h-10 text-slate-500/50 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.61 3.25c-3.15 0-6.02.97-8.38 2.63a14.98 14.98 0 0 0 4.12 18.06" />
           </svg>
           <p class="text-sm font-semibold text-slate-300">Ready to discover?</p>
-          <p class="text-xs text-slate-500 max-w-xs mx-auto mt-1">Search via the top header bar or click a category filter above to see options.</p>
+          <p class="text-xs text-slate-500 max-w-xs mx-auto mt-1">Search via the top header bar or click a category
+            filter above to see options.</p>
         </div>
 
         <!-- View more wrap -->
@@ -178,8 +188,6 @@
     <footer class="py-6 px-4 border-t border-slate-900/10 text-center text-xs text-slate-500">
       <div class="flex items-center justify-center gap-4">
         <span>&copy; 2026 FIND discovery</span>
-        <span class="w-px h-3 bg-slate-800"></span>
-        <a href="admin.html" class="hover:text-orange-500 transition-colors">Admin Portal</a>
       </div>
     </footer>
 
@@ -190,9 +198,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 id="modal-tool-name" class="text-lg font-bold text-white">Tool Name</h2>
-        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white font-bold text-xs" title="Close">✕</button>
+        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white font-bold text-xs"
+          title="Close">✕</button>
       </div>
-      
+
       <div class="modal-body">
         <!-- Top rating header details -->
         <div class="flex items-center justify-between gap-4 flex-wrap">
@@ -203,13 +212,15 @@
           <button id="modal-visit-btn" class="btn-orange font-bold text-xs">
             Visit Website
             <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
             </svg>
           </button>
         </div>
 
         <!-- Description -->
-        <p id="modal-tool-intro" class="text-sm text-slate-300 leading-relaxed font-normal">This is the short introduction description of the tool.</p>
+        <p id="modal-tool-intro" class="text-sm text-slate-300 leading-relaxed font-normal">This is the short
+          introduction description of the tool.</p>
 
         <!-- Pros/Cons specs -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -255,7 +266,7 @@
           <!-- Review input form -->
           <div class="bg-black/15 border border-slate-800 rounded-lg p-3 mt-4">
             <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Leave a Review</h4>
-            
+
             <div id="review-loggedout-prompt" class="text-center py-2">
               <p class="text-xs text-slate-500 mb-2">You must be logged in with a @username to leave reviews.</p>
               <button onclick="openAuthModal()" class="btn-orange text-xs py-1 px-3">Sign In Now</button>
@@ -272,11 +283,12 @@
                   <button type="button" class="star-btn text-lg" data-rating="5">★</button>
                 </div>
               </div>
-              
+
               <div>
-                <textarea id="review-comment" class="form-input text-xs w-full min-h-[50px]" placeholder="What was your experience with this tool?..." required></textarea>
+                <textarea id="review-comment" class="form-input text-xs w-full min-h-[50px]"
+                  placeholder="What was your experience with this tool?..." required></textarea>
               </div>
-              
+
               <button type="submit" id="review-submit-btn" class="btn-orange text-xs py-1.5 px-3">
                 Submit Review
               </button>
@@ -293,52 +305,61 @@
     <div class="modal-content max-w-sm">
       <div class="modal-header">
         <h3 id="auth-title" class="text-sm font-bold text-white uppercase tracking-wider">Sign In to FIND</h3>
-        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white font-bold text-xs" title="Close">✕</button>
+        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white font-bold text-xs"
+          title="Close">✕</button>
       </div>
 
       <!-- Auth Tabs -->
       <div class="flex border-b border-slate-800 text-xs">
-        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-3.5 text-center font-bold border-b-2 border-orange-500 text-white">SIGN IN</button>
-        <button id="auth-tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-3.5 text-center font-bold border-b-2 border-transparent text-slate-400">CREATE ACCOUNT</button>
+        <button id="auth-tab-login" onclick="switchAuthTab('login')"
+          class="flex-1 py-3.5 text-center font-bold border-b-2 border-orange-500 text-white">SIGN IN</button>
+        <button id="auth-tab-signup" onclick="switchAuthTab('signup')"
+          class="flex-1 py-3.5 text-center font-bold border-b-2 border-transparent text-slate-400">CREATE
+          ACCOUNT</button>
       </div>
 
       <!-- Form -->
       <form id="auth-form" class="p-5 space-y-3.5">
         <div>
           <label class="form-label" for="auth-username">Username</label>
-          <input
-            type="text"
-            id="auth-username"
-            class="form-input text-xs"
-            placeholder="@ismailg"
-            autocomplete="username"
-            required
-          >
-          <p id="auth-username-hint" class="text-[10px] text-slate-500 mt-1">Format: @username (lowercase letters & numbers only)</p>
+          <input type="text" id="auth-username" class="form-input text-xs" placeholder="@ismailg"
+            autocomplete="username" required>
+          <p id="auth-username-hint" class="text-[10px] text-slate-500 mt-1">Format: @username (lowercase letters &
+            numbers only)</p>
         </div>
 
         <div>
           <label class="form-label" for="auth-password">Password</label>
-          <input
-            type="password"
-            id="auth-password"
-            class="form-input text-xs"
-            placeholder="••••••••"
-            autocomplete="current-password"
-            required
-          >
+          <input type="password" id="auth-password" class="form-input text-xs" placeholder="••••••••"
+            autocomplete="current-password" required>
         </div>
 
         <p id="auth-error-msg" class="text-red-400 text-xs hidden text-center leading-normal"></p>
 
-        <button type="submit" id="auth-submit-btn" class="btn-orange w-full justify-center font-bold text-xs py-2.5 mt-2">
+        <button type="submit" id="auth-submit-btn"
+          class="btn-orange w-full justify-center font-bold text-xs py-2.5 mt-2">
           Sign In
         </button>
       </form>
     </div>
   </div>
 
+  <!-- Hidden SEO content for Google Indexing -->
+  <section style="display: none;" aria-hidden="true">
+    <h1>Discover the Best Underrated Tools for Design and Development</h1>
+    <p>FIND is a curated engine for high-performance tools. Whether you are looking for AI assistants, productivity
+      boosters, or design gems, our discovery engine helps you find the right tool for any task.</p>
+    <ul>
+      <li>Web development tools and frameworks</li>
+      <li>UI/UX design resources and mockups</li>
+      <li>AI-powered writing and coding assistants</li>
+      <li>Lightweight productivity apps for teams</li>
+      <li>Premium curated software for modern workflows</li>
+    </ul>
+  </section>
+
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
 </body>
+
 </html>

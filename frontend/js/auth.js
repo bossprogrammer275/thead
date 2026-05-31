@@ -1,6 +1,6 @@
 const AUTH_API_BASE = window.location.port === '5500' || window.location.port === '5501' || window.location.port === '3000'
   ? 'http://localhost:5000' 
-  : '';
+  : 'https://mysite-gab1.onrender.com';
 
 let currentAuthMode = 'login'; // 'login' or 'signup'
 

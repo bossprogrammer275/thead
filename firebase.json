@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "toolfinders",
+    "site": "find",
     "public": "frontend",
     "ignore": [
       "firebase.json",

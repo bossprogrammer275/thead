@@ -61,8 +61,8 @@ const app = express();
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [
-    'https://toolfinders.web.app',
-    'https://toolfinders.firebaseapp.com',
+    'https://find.web.app',
+    'https://find.firebaseapp.com',
     'http://localhost:5500',
     'http://localhost:3000',
     'http://127.0.0.1:5500',
@@ -264,12 +264,17 @@ app.get('/api/tools/search', async (req, res) => {
 
     snapshot.forEach(doc => {
       const d = doc.data();
-      const nameMatch = (d.name || '').toLowerCase().includes(query);
-      const introMatch = (d.intro || '').toLowerCase().includes(query);
-      const tagMatch = Array.isArray(d.tags) &&
-        d.tags.some(tag => tag.toLowerCase().includes(query));
+      const queryLower = query.toLowerCase();
 
-      if (nameMatch || introMatch || tagMatch) {
+      const nameMatch = (d.name || '').toLowerCase().includes(queryLower);
+      const introMatch = (d.intro || '').toLowerCase().includes(queryLower);
+      const bestForMatch = (d.bestFor || '').toLowerCase().includes(queryLower);
+      const weaknessMatch = (d.weakness || '').toLowerCase().includes(queryLower);
+      const verdictMatch = (d.verdict || '').toLowerCase().includes(queryLower);
+      const tagMatch = Array.isArray(d.tags) &&
+        d.tags.some(tag => tag.toLowerCase().includes(queryLower));
+
+      if (nameMatch || introMatch || bestForMatch || weaknessMatch || verdictMatch || tagMatch) {
         results.push({ id: doc.id, ...d });
       }
     });
@@ -419,7 +424,7 @@ app.get('/api/admin/reviews', async (req, res) => {
   try {
     const snapshot = await toolsRef.get();
     const allReviews = [];
-    
+
     for (const toolDoc of snapshot.docs) {
       const toolData = toolDoc.data();
       const reviewsSnapshot = await toolDoc.ref.collection('reviews').orderBy('createdAt', 'desc').get();
@@ -432,14 +437,14 @@ app.get('/api/admin/reviews', async (req, res) => {
         });
       });
     }
-    
+
     // Sort all reviews by date desc
     allReviews.sort((a, b) => {
       const aTime = a.createdAt ? a.createdAt.toDate().getTime() : 0;
       const bTime = b.createdAt ? b.createdAt.toDate().getTime() : 0;
       return bTime - aTime;
     });
-    
+
     res.json(allReviews);
   } catch (err) {
     console.error('GET /api/admin/reviews error:', err);
@@ -453,30 +458,30 @@ app.delete('/api/tools/:id/reviews/:reviewId', async (req, res) => {
     const { id, reviewId } = req.params;
     const reviewRef = toolsRef.doc(id).collection('reviews').doc(reviewId);
     const doc = await reviewRef.get();
-    
+
     if (!doc.exists) {
       return res.status(404).json({ error: 'Review not found.' });
     }
-    
+
     const reviewData = doc.data();
     const ratingToDelete = reviewData.rating || 0;
-    
+
     const toolRef = toolsRef.doc(id);
-    
+
     await db.runTransaction(async (transaction) => {
       const toolDoc = await transaction.get(toolRef);
       if (toolDoc.exists) {
         const toolData = toolDoc.data();
         const currentCount = toolData.userRatingsCount || 0;
         const currentAvg = toolData.avgUserRating || 0;
-        
+
         let newCount = currentCount - 1;
         let newAvg = 0;
         if (newCount > 0) {
           newAvg = ((currentAvg * currentCount) - ratingToDelete) / newCount;
         }
         newAvg = Math.max(0, Math.round(newAvg * 10) / 10);
-        
+
         transaction.update(toolRef, {
           userRatingsCount: Math.max(0, newCount),
           avgUserRating: newAvg
@@ -484,7 +489,7 @@ app.delete('/api/tools/:id/reviews/:reviewId', async (req, res) => {
       }
       transaction.delete(reviewRef);
     });
-    
+
     res.json({ message: 'Review deleted successfully.' });
   } catch (err) {
     console.error(`DELETE /api/tools/${req.params.id}/reviews/${req.params.reviewId} error:`, err);
@@ -513,9 +518,10 @@ app.get('/api/admin/analytics', async (req, res) => {
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Routing fallbacks
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/admin.html'));
+app.get('/ismail-77-admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/admin-control-ismail-77.html'));
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));

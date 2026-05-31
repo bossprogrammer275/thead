@@ -1,6 +1,6 @@
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? (window.location.port === '5000' ? '' : 'http://localhost:5000')
-  : '';
+  : 'https://mysite-gab1.onrender.com';
 
 let allResults = [];
 let showingAll = false;
