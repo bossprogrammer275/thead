@@ -61,8 +61,8 @@ const app = express();
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [
-    'https://find.web.app',
-    'https://find.firebaseapp.com',
+    'https://find-app.web.app',
+    'https://find-app.firebaseapp.com',
     'http://localhost:5500',
     'http://localhost:3000',
     'http://127.0.0.1:5500',

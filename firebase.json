@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "find",
+    "site": "find-app",
     "public": "frontend",
     "ignore": [
       "firebase.json",
